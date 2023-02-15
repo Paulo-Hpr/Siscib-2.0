@@ -22,7 +22,7 @@ const insertTag = async (tag) => {
 };
 
 const deleteTag = async (numberTag, voo) => {
-  const data = new Date(Date.now()).toLocaleDateString();
+  const data = new Date(Date.now()).toLocaleDateString('pt-BR');
   const removedTag = await connection.execute('DELETE FROM tagsAndDprs WHERE numberTag = ? AND vooId = ? AND creat_at LIKE ?', [numberTag, voo, `${data}%`]);
   return { responseTag: removedTag };
 }

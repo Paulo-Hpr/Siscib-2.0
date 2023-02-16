@@ -13,7 +13,7 @@ const getAllUserRanking = async () => {
 const insertTag = async (tag) => {
   const { ciaId, dprs, liderId, numberTag, userId, vooId } = tag;
 
-  const dateUTC = new Date(Date.now()).toLocaleString();
+  const dateUTC = new Date(Date.now()).toLocaleString('pt-BR');
 
   const query = 'INSERT INTO tagsAndDprs(numberTag,dprs,ciaId,userId,vooId,liderId,creat_at ) VALUES (?, ?, ?, ?, ?, ?, ?)';
 

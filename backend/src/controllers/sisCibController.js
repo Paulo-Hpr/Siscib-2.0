@@ -1,6 +1,10 @@
 const { request, response, head } = require('../app')
 const sisCibModels = require('../models/sisCibModels')
 
+const validation =  (request, response) => {
+    return response.status(200)
+}
+
 const getAllUserRanking =  async (request, response) => {
     const UserRanking = await sisCibModels.getAllUserRanking()
     return response.status(200).json(UserRanking)
@@ -63,6 +67,7 @@ const getTagSearch = async (request,response) => {
 }
 
 module.exports={
+    validation,
     getAllUserRanking,
     getAllVoos2,
     getAllUserLider,

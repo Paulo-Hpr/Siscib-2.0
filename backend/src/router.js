@@ -17,7 +17,6 @@ router.use((req,res,next) => {
     next();
 
 });
-router.get('/validation',Controller.validation);
 router.get('/ranking',sisCibMiddleware.verifyLogin, Controller.getAllUserRanking);
 router.post('/TagSearch',Controller.getTagSearch);
 router.post('/insertTag',sisCibMiddleware.verifyLogin, Controller.insertTag);
@@ -30,6 +29,7 @@ router.post('/voos',Controller.getAllVoos2);
 router.post('/tagsreturn',Controller.getAllTagsFilter);
 
 router.post('/cias',Controller.getAllCias);
+router.get('/cias',Controller.getAllCias);
 router.post('/userLider',Controller.getAllUserLider);
 // router.post('/cias',sisCibMiddleware.verifyLogin, Controller.getAllCias);
 

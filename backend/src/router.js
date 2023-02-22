@@ -17,7 +17,7 @@ router.use((req,res,next) => {
     next();
 
 });
-router.get('/vadation',Controller.validation);
+router.get('/validation',Controller.validation);
 router.get('/ranking',sisCibMiddleware.verifyLogin, Controller.getAllUserRanking);
 router.post('/TagSearch',Controller.getTagSearch);
 router.post('/insertTag',sisCibMiddleware.verifyLogin, Controller.insertTag);

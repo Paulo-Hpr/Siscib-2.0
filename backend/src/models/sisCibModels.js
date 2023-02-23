@@ -58,11 +58,11 @@ const getTagSearch = async (tagInf) =>{
   let tag;
   if (vooId == 0 )  { 
      querry= 'SELECT t.numberTag,t.dprs,ul.firtname as lider,t.creat_at, u.firtname as nome,v.numvoo,v.origem,v.destino,c.name as cia FROM tagsAndDprs t INNER JOIN user u ON u.userId = t.userId INNER JOIN user ul ON t.liderId = ul.userId INNER JOIN voo v ON v.vooId = t.vooId INNER JOIN ciaAerea c ON c.ciaId = t.ciaId WHERE numberTag LIKE ?'
-    tag = await connection.execute(querry,[`${numberTag}%`]);
+    tag = await connection.execute(querry,[`%${numberTag}%`]);
 
   } else{
    querry= 'SELECT t.numberTag,t.dprs,ul.firtname as lider,t.creat_at, u.firtname as nome,v.numvoo,v.origem,v.destino,c.name as cia FROM tagsAndDprs t INNER JOIN user u ON u.userId = t.userId INNER JOIN user ul ON t.liderId = ul.userId INNER JOIN voo v ON v.vooId = t.vooId INNER JOIN ciaAerea c ON c.ciaId = t.ciaId WHERE numberTag LIKE ? AND t.vooId = ?'
-  tag= await connection.execute(querry,[`${numberTag}%`,vooId]);
+  tag= await connection.execute(querry,[`%${numberTag}%`,vooId]);
   }
   return tag[0]
 }

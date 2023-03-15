@@ -4,8 +4,10 @@ require('dotenv').config();
 const secret = process.env.JWT_SECRET
 
 const getAllUserRanking = async () => {
-  const querry = 'SELECT COUNT(t.userId) as total, u.firtname as nome FROM tagsAndDprs t INNER JOIN user u ON t.userId = u.userId GROUP BY t.userId ORDER BY total DESC'
-  const [ranking] = await connection.execute(querry)
+  const data = new Date(Date.now()).toLocaleDateString('pt-BR');
+  let monthAndYear=data.slice(2)
+  const querry = 'SELECT COUNT(t.userId) as total, u.firtname as nome, u.lastname as sobrenome FROM tagsAndDprs t INNER JOIN user u ON t.userId = u.userId   WHERE t.creat_at LIKE ? GROUP BY t.userId ORDER BY total DESC '
+  const [ranking] = await connection.execute(querry, [`%${monthAndYear}%`])
   return ranking
 }
 
@@ -21,9 +23,9 @@ const insertTag = async (tag) => {
   return { insertId: createdTag };
 };
 
-const deleteTag = async (numberTag, voo) => {
+const deleteTag = async (numberTag, voo,userId) => {
   const data = new Date(Date.now()).toLocaleDateString('pt-BR');
-  const removedTag = await connection.execute('DELETE FROM tagsAndDprs WHERE numberTag = ? AND vooId = ? AND creat_at LIKE ?', [numberTag, voo, `${data}%`]);
+  const removedTag = await connection.execute('DELETE FROM tagsAndDprs WHERE userId = ? AND numberTag = ? AND vooId = ? AND creat_at LIKE ?', [userId, numberTag, voo, `${data}%`]);
   return { responseTag: removedTag };
 }
 
@@ -49,6 +51,14 @@ const getAllTagsFilter = async (idd) => {
   const { ciaId, vooId, dateNow } = idd;
   const query = 'SELECT ciaId,dprs,liderId,numberTag,userId,vooId FROM tagsAndDprs WHERE ciaId = ? AND vooId = ? AND creat_at LIKE ?';
   const [tagsAndDprs] = await connection.execute(query, [ciaId, vooId, `${dateNow}%`]);
+  return tagsAndDprs;
+}
+
+const getAllTags = async (ciaId, vooId, date) => {
+  const newdate = date.replace(/-/g,'/')
+
+  const query = 'SELECT t.numberTag,t.dprs,ul.firtname as lider,t.creat_at, u.firtname as nome,u.matricula,v.numvoo,v.origem,v.destino,c.name as cia FROM tagsAndDprs t INNER JOIN user u ON u.userId = t.userId INNER JOIN user ul ON t.liderId = ul.userId INNER JOIN voo v ON v.vooId = t.vooId INNER JOIN ciaAerea c ON c.ciaId = t.ciaId WHERE t.ciaId = ? AND t.vooId = ? AND t.creat_at LIKE ?';
+  const [tagsAndDprs] = await connection.execute(query, [ciaId, vooId, `%${newdate}%`]);
   return tagsAndDprs;
 }
 
@@ -92,6 +102,7 @@ module.exports = {
   getAllCias,
   getAllUserLider,
   getAllVoos,
+  getAllTags,
   insertTag,
   deleteTag,
   getTagSearch,

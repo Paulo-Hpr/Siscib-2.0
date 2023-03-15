@@ -18,10 +18,11 @@ router.use((req,res,next) => {
 
 });
 router.get('/ranking',sisCibMiddleware.verifyLogin, Controller.getAllUserRanking);
+router.get('/getalltags/:ciaId,:vooId,:date',Controller.getAllTags);
 router.post('/TagSearch',Controller.getTagSearch);
 router.post('/insertTag',sisCibMiddleware.verifyLogin, Controller.insertTag);
 
-router.delete('/deleteTag/:tag,:voo',sisCibMiddleware.verifyLogin, Controller.deleteTag);
+router.delete('/deleteTag/:tag,:voo,:user',sisCibMiddleware.verifyLogin, Controller.deleteTag);
 
 // router.put('/tasks/:id',sisCibMiddleware.validateFieldTitle,sisCibMiddleware.validateFieldStatus, Controller.updateTask);
 

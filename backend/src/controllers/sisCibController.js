@@ -26,6 +26,11 @@ const getAllTagsFilter = async (request,response) =>{
     const tags = await sisCibModels.getAllTagsFilter(request.body)
     return response.status(200).json(tags)
 }
+const getAllTags = async (request,response) =>{
+    const {ciaId, vooId, date} = request.params
+    const tags = await sisCibModels.getAllTags(ciaId, vooId, date)
+    return response.status(200).json(tags)
+}
 
 const insertTag = async(request,response) => {
     const insertedTag = await sisCibModels.insertTag(request.body)
@@ -33,8 +38,8 @@ const insertTag = async(request,response) => {
 }
 
 const deleteTag = async (request, response) => {
-    const {tag,voo} = request.params
-    const deledetedTag = await sisCibModels.deleteTag(tag,voo)
+    const {tag,voo,user} = request.params
+    const deledetedTag = await sisCibModels.deleteTag(tag,voo,user)
     return response.status(204).json(deledetedTag)
 }
 
@@ -68,6 +73,7 @@ const getTagSearch = async (request,response) => {
 
 module.exports={
     validation,
+    getAllTags,
     getAllUserRanking,
     getAllVoos2,
     getAllUserLider,
